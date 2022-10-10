@@ -1,0 +1,101 @@
+import pygame
+import sys
+
+
+class Player:
+    ship = pygame.image.load("xwing.png")
+
+
+def print_menu():
+    title = title_font.render("Space Invaders", True, WHITE)
+    start = text_font.render("Press SPACE to Start", True, WHITE)
+    quit = text_font.render("Press ESC to Quit", True, WHITE)
+    title_box = title.get_rect()
+    start_box = start.get_rect()
+    quit_box = quit.get_rect()
+    title_box.midbottom = arena.center
+    start_box.midtop = arena.center
+    quit_box.midtop = start_box.midbottom
+    window.blit(back, (0, 0))
+    window.blit(title, title_box)
+    window.blit(start, start_box)
+    window.blit(quit, quit_box)
+
+
+def game_loop():
+    y = 0
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+        rel_y = y % back.get_rect().height
+        window.blit(back, (0, rel_y - back.get_rect().height))
+        window.blit(back, (0, rel_y - back.get_rect().height))
+        if rel_y < HEIGHT:
+            window.blit(back, (0, rel_y))
+        y -= 1
+
+        pygame.display.flip()
+        clock.tick(fps)
+
+
+def main_menu():
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+                if event.key == pygame.K_SPACE:
+                    game_loop()
+
+        print_menu()
+        pygame.display.flip()
+        clock.tick(fps)
+
+
+def main():
+    main_menu()
+
+
+if __name__ == '__main__':
+    HEIGHT = 640
+    WIDTH = 480
+    WHITE = (255, 255, 255)
+    TITLE_SIZE = 50
+    TEXT_SIZE = 25
+    pygame.init()
+    clock = pygame.time.Clock()
+    window = pygame.display.set_mode((WIDTH, HEIGHT))
+    arena = window.get_rect()
+    fps = 120
+    title_font = pygame.font.Font('pixel_font.ttf', TITLE_SIZE)
+    text_font = pygame.font.Font('pixel_font.ttf', TEXT_SIZE)
+    back = pygame.image.load("background.png").convert()
+    main()
+
+
+        def wait_for_key(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.stop()
+            if event.type == pygame.KEYDOWN:
+                key = event.key
+                if key == pygame.K_ESCAPE:
+                    self.stop()
+                else:
+                    self.screen.on_key(key)
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.stop()
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE]:
+            self.stop()
+        else:
+            self.screen.on_key(keys)
